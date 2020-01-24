@@ -1,7 +1,6 @@
 #include "database.h"
 
-Database::Database(std::string url, std::string user, std::string password) :
-	url_(url), user_(user), password_(password)
+Database::Database()
 {
 	driver = nullptr;
 	con = nullptr;
@@ -12,7 +11,7 @@ Database::~Database()
 	delete con;
 }
 
-void Database::connect()
+void Database::connect(std::string url, std::string user, std::string password)
 {
 	driver = get_driver_instance();
 	con = driver->connect(

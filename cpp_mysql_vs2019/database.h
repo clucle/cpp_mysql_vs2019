@@ -14,20 +14,23 @@
 class Database
 {
 public:
-	Database(std::string url, std::string user, std::string password);
+	Database();
 	~Database();
 
 	Database(const Database&) = delete;
 	Database& operator=(const Database&) = delete;
 
-	void connect();
+	static Database& getInstance()
+	{
+		static Database instance;
+		return instance;
+	}
+
+	void connect(std::string url, std::string user, std::string password);
 	void switchDatabase(const std::string& name);
 
 private:
 
-	std::string url;
-	std::string user;
-	std::string password;
 	std::recursive_mutex databaseLock;
 
 	sql::Driver* driver;
