@@ -4,6 +4,7 @@
 #include <string>
 #include <stdlib.h>
 #include <iostream>
+#include <mutex>
 
 #include <jdbc/cppconn/driver.h>
 #include <jdbc/cppconn/exception.h>
@@ -24,12 +25,14 @@ public:
 
 private:
 
-	std::string url_;
-	std::string user_;
-	std::string password_;
+	std::string url;
+	std::string user;
+	std::string password;
+	std::recursive_mutex databaseLock;
 
 	sql::Driver* driver;
 	sql::Connection* con;
+
 
 };
 

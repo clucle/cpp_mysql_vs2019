@@ -16,9 +16,9 @@ void Database::connect()
 {
 	driver = get_driver_instance();
 	con = driver->connect(
-		sql::SQLString(url_.c_str())
-		, sql::SQLString(user_.c_str())
-		, sql::SQLString(password_.c_str()));
+		sql::SQLString(url.c_str())
+		, sql::SQLString(user.c_str())
+		, sql::SQLString(password.c_str()));
 }
 
 void Database::switchDatabase(const std::string& name)
