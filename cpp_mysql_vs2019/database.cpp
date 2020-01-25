@@ -4,10 +4,14 @@ Database::Database()
 {
 	driver = nullptr;
 	con = nullptr;
+	stmt = nullptr;
+	prep_stmt = nullptr;
+	res = nullptr;
 }
 
 Database::~Database()
 {
+	disconnect();
 	delete con;
 }
 
@@ -28,4 +32,9 @@ void Database::switchDatabase(const std::string& name)
 	catch (sql::SQLException & e) {
 		// err
 	}
+}
+
+void Database::disconnect()
+{
+	con->close();
 }

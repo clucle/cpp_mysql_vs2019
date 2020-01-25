@@ -31,6 +31,8 @@ public:
 
 private:
 
+	void disconnect();
+
 	std::recursive_mutex databaseLock;
 
 	sql::Driver* driver;
