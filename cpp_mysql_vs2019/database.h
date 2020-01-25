@@ -35,7 +35,9 @@ private:
 
 	sql::Driver* driver;
 	sql::Connection* con;
-
+	sql::Statement* stmt;
+	sql::PreparedStatement* prep_stmt;
+	sql::ResultSet* res;
 
 };
 
