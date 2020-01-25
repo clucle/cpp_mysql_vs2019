@@ -29,6 +29,25 @@ public:
 	void connect(std::string url, std::string user, std::string password);
 	void switchDatabase(const std::string& name);
 
+	void prepare(const std::string& query);
+	void deletePrepare();
+
+	void setInt(const int& num, const int& data);
+	void setString(const int& num, const std::string& data);
+
+	void executeQuery(const std::string& query);
+
+	std::string getString(const std::string& field);
+	std::string getString(const int& index);
+
+	int getInt(const std::string& field);
+	int getInt(const int& index);
+
+	sql::ResultSet* getRes();
+
+	bool hasNext();
+	bool next();
+
 private:
 
 	void disconnect();
