@@ -10,6 +10,7 @@
 #include <jdbc/cppconn/exception.h>
 #include <jdbc/cppconn/resultset.h>
 #include <jdbc/cppconn/statement.h>
+#include <jdbc/cppconn/prepared_statement.h>
 
 class Database
 {
@@ -45,7 +46,6 @@ public:
 
 	sql::ResultSet* getRes();
 
-	bool hasNext();
 	bool next();
 
 private:

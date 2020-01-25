@@ -36,57 +36,73 @@ void Database::switchDatabase(const std::string& name)
 
 void Database::prepare(const std::string& query)
 {
+	try {
+		prep_stmt = con->prepareStatement(query);
+	}
+	catch (sql::SQLException & e) {
+		// err
+	}
 }
 
 void Database::deletePrepare()
 {
+	delete prep_stmt;
+	prep_stmt = nullptr;
 }
 
 void Database::setInt(const int& num, const int& data)
 {
+	prep_stmt->setInt(num, data);
 }
 
 void Database::setString(const int& num, const std::string& data)
 {
+	prep_stmt->setString(num, data);
 }
 
 void Database::executeQuery(const std::string& query)
 {
+	try {
+		if (query != "") {
+			res = stmt->executeQuery(query);
+		}
+		else {
+			res = prep_stmt->executeQuery();
+		}
+	}
+	catch (sql::SQLException & e) {
+		// err
+	}
 }
 
 std::string Database::getString(const std::string& field)
 {
-	return std::string();
+	return res->getString(field);
 }
 
 std::string Database::getString(const int& index)
 {
-	return std::string();
+	return res->getString(index);
 }
 
 int Database::getInt(const std::string& field)
 {
-	return 0;
+	return res->getInt(field);
 }
 
 int Database::getInt(const int& index)
 {
-	return 0;
+	return res->getInt(index);
 }
 
 sql::ResultSet* Database::getRes()
 {
-	return nullptr;
-}
-
-bool Database::hasNext()
-{
-	return false;
+	return res;
 }
 
 bool Database::next()
 {
-	return false;
+	return res->next();
 }
 
 void Database::disconnect()
