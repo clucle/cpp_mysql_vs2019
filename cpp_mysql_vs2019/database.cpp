@@ -28,6 +28,7 @@ void Database::switchDatabase(const std::string& name)
 {
 	try {
 		con->setSchema(sql::SQLString(name.c_str()));
+		stmt = con->createStatement();
 	}
 	catch (sql::SQLException & e) {
 		// err
@@ -37,7 +38,7 @@ void Database::switchDatabase(const std::string& name)
 void Database::prepare(const std::string& query)
 {
 	try {
-		prep_stmt = con->prepareStatement(query);
+		prep_stmt = con->prepareStatement(query.c_str());
 	}
 	catch (sql::SQLException & e) {
 		// err
@@ -64,7 +65,7 @@ void Database::executeQuery(const std::string& query)
 {
 	try {
 		if (query != "") {
-			res = stmt->executeQuery(query);
+			res = stmt->executeQuery(query.c_str());
 		}
 		else {
 			res = prep_stmt->executeQuery();
@@ -79,7 +80,7 @@ void Database::execute(const std::string& query)
 {
 	try {
 		if (query != "") {
-			stmt->execute(query);
+			stmt->execute(query.c_str());
 		}
 		else {
 			prep_stmt->execute();
