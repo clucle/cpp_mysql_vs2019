@@ -36,7 +36,25 @@ public:
 	void setInt(const int& num, const int& data);
 	void setString(const int& num, const std::string& data);
 
+	/**
+	 * Execute query
+	 *
+	 * Executes query which generates results
+	 *
+	 * @param query command
+	 * @return void
+	 */
 	void executeQuery(const std::string& query);
+
+	/**
+	 * Execute query
+	 *
+	 * Executes query which doesn't generates results
+	 *
+	 * @param query command
+	 * @return void
+	 */
+	void execute(const std::string& query);
 
 	std::string getString(const std::string& field);
 	std::string getString(const int& index);

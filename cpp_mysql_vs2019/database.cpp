@@ -75,6 +75,21 @@ void Database::executeQuery(const std::string& query)
 	}
 }
 
+void Database::execute(const std::string& query)
+{
+	try {
+		if (query != "") {
+			stmt->execute(query);
+		}
+		else {
+			prep_stmt->execute();
+		}
+	}
+	catch (sql::SQLException & e) {
+		// err
+	}
+}
+
 std::string Database::getString(const std::string& field)
 {
 	return res->getString(field);
