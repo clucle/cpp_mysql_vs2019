@@ -30,21 +30,15 @@ public:
 	void connect(std::string url, std::string user, std::string password);
 	void switchDatabase(const std::string& name);
 
-	void prepare(const std::string& query);
-	void deletePrepare();
-
-	void setInt(const int& num, const int& data);
-	void setString(const int& num, const std::string& data);
-
 	/**
 	 * Execute query
 	 *
 	 * Executes query which generates results
 	 *
 	 * @param query command
-	 * @return void
+	 * @return std::shared_ptr<sql::ResultSet>
 	 */
-	void executeQuery(const std::string& query);
+	std::shared_ptr<sql::ResultSet>  executeQuery(const std::string& query);
 
 	/**
 	 * Execute query
@@ -52,19 +46,9 @@ public:
 	 * Executes query which doesn't generates results
 	 *
 	 * @param query command
-	 * @return void
+	 * @return bool
 	 */
-	void execute(const std::string& query);
-
-	std::string getString(const std::string& field);
-	std::string getString(const int& index);
-
-	int getInt(const std::string& field);
-	int getInt(const int& index);
-
-	sql::ResultSet* getRes();
-
-	bool next();
+	bool execute(const std::string& query);
 
 private:
 
@@ -75,9 +59,6 @@ private:
 	sql::Driver* driver;
 	sql::Connection* con;
 	sql::Statement* stmt;
-	sql::PreparedStatement* prep_stmt;
-	sql::ResultSet* res;
-
 };
 
 #endif

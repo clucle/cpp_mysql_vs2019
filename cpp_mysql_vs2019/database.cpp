@@ -5,8 +5,6 @@ Database::Database()
 	driver = nullptr;
 	con = nullptr;
 	stmt = nullptr;
-	prep_stmt = nullptr;
-	res = nullptr;
 }
 
 Database::~Database()
@@ -35,90 +33,34 @@ void Database::switchDatabase(const std::string& name)
 	}
 }
 
-void Database::prepare(const std::string& query)
+std::shared_ptr<sql::ResultSet> Database::executeQuery(const std::string& query)
 {
+	databaseLock.lock();
+	std::shared_ptr<sql::ResultSet> res;
 	try {
-		prep_stmt = con->prepareStatement(query.c_str());
+		res.reset(stmt->executeQuery(query.c_str()));
 	}
 	catch (sql::SQLException & e) {
 		// err
 	}
-}
+	databaseLock.unlock();
 
-void Database::deletePrepare()
-{
-	delete prep_stmt;
-	prep_stmt = nullptr;
-}
-
-void Database::setInt(const int& num, const int& data)
-{
-	prep_stmt->setInt(num, data);
-}
-
-void Database::setString(const int& num, const std::string& data)
-{
-	prep_stmt->setString(num, data);
-}
-
-void Database::executeQuery(const std::string& query)
-{
-	try {
-		if (query != "") {
-			res = stmt->executeQuery(query.c_str());
-		}
-		else {
-			res = prep_stmt->executeQuery();
-		}
-	}
-	catch (sql::SQLException & e) {
-		// err
-	}
-}
-
-void Database::execute(const std::string& query)
-{
-	try {
-		if (query != "") {
-			stmt->execute(query.c_str());
-		}
-		else {
-			prep_stmt->execute();
-		}
-	}
-	catch (sql::SQLException & e) {
-		// err
-	}
-}
-
-std::string Database::getString(const std::string& field)
-{
-	return res->getString(field);
-}
-
-std::string Database::getString(const int& index)
-{
-	return res->getString(index);
-}
-
-int Database::getInt(const std::string& field)
-{
-	return res->getInt(field);
-}
-
-int Database::getInt(const int& index)
-{
-	return res->getInt(index);
-}
-
-sql::ResultSet* Database::getRes()
-{
 	return res;
 }
 
-bool Database::next()
+bool Database::execute(const std::string& query)
 {
-	return res->next();
+	databaseLock.lock();
+	bool res = false;
+	try {
+		res = stmt->execute(query.c_str());
+	}
+	catch (sql::SQLException & e) {
+		// err
+	}
+	databaseLock.unlock();
+
+	return res;
 }
 
 void Database::disconnect()
